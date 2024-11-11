@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Sit : MonoBehaviour, IInteractable
 {
-    public Transform SitPosition; 
-    public Transform StandPosition; 
-    public bool isSitting = false; 
+    public Transform SitPosition;
+    public Transform StandPosition;
+    public bool isSitting = false;
 
     private GameObject player;
     private Movement playerMovementScript;
@@ -30,7 +30,7 @@ public class Sit : MonoBehaviour, IInteractable
         }
         else
         {
-            player.transform.position = StandPosition.position; 
+            player.transform.position = StandPosition.position;
             player.transform.rotation = StandPosition.rotation;
             if (playerMovementScript != null)
             {
