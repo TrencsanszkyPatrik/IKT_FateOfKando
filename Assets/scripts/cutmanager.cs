@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CutsceneController : MonoBehaviour
 {
     public Camera playerCamera;      
-    public Camera cutsceneCamera;    
+    public Camera cutsceneCamera;
+    public RawImage kep;
     public Animator cutsceneAnimator; 
 
     private void Start()
@@ -21,6 +23,7 @@ public class CutsceneController : MonoBehaviour
 
     void EndCutscene()
     {
+        kep.gameObject.SetActive(false);
         cutsceneCamera.gameObject.SetActive(false);
         playerCamera.gameObject.SetActive(true);
     }
