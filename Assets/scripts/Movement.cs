@@ -1,3 +1,4 @@
+using NUnit.Framework.Internal;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,8 @@ public class Movement : MonoBehaviour
     [SerializeField][Range(0.0f, 0.5f)] float moveSmoothTime = 0.3f;
     [SerializeField] float gravity = -30f;
     [SerializeField] Transform groundCheck;
-    [SerializeField] LayerMask ground;  
+    [SerializeField] LayerMask ground;
+    GameObject test;
  
     public float jumpHeight = 6f;
     float velocityY;
@@ -28,9 +30,10 @@ public class Movement : MonoBehaviour
     Vector2 currentDir;
     Vector2 currentDirVelocity;
     Vector3 velocity;
- 
     void Start()
     {
+        test = GameObject.Find("Dolgozat1");
+        test.SetActive(false);
         controller = GetComponent<CharacterController>();
  
         if (cursorLock)

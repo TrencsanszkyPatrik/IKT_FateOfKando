@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Sit : MonoBehaviour, IInteractable
 {
@@ -8,6 +8,7 @@ public class Sit : MonoBehaviour, IInteractable
 
     private GameObject player;
     private Movement playerMovementScript;
+    private bool canInteract = true;  
 
     void Start()
     {
@@ -17,6 +18,10 @@ public class Sit : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        if (!canInteract) return;  
+
+        canInteract = false;  
+
         if (isSitting == false)
         {
             player.transform.position = SitPosition.position;
@@ -38,11 +43,18 @@ public class Sit : MonoBehaviour, IInteractable
             }
             isSitting = false;
         }
+
+        Invoke("EnableInteraction", 1f); 
+    }
+
+    void EnableInteraction()
+    {
+        canInteract = true;  
     }
 
     void Update()
     {
-        if (isSitting && Input.GetKeyDown(KeyCode.E))
+        if (isSitting && Input.GetKeyDown(KeyCode.E) && canInteract)
         {
             Interact();
         }
