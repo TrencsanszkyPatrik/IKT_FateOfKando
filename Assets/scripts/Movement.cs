@@ -1,4 +1,4 @@
-using NUnit.Framework.Internal;
+﻿using NUnit.Framework.Internal;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +12,7 @@ public class Movement : MonoBehaviour
     [SerializeField] float mouseSensitivity = 3.5f;
     [SerializeField] float Speed = 6.0f;
     [SerializeField][Range(0.0f, 0.5f)] float moveSmoothTime = 0.3f;
-    [SerializeField] float gravity = -30f;
+    [SerializeField] float gravity = -10f;
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask ground;
     GameObject test;
