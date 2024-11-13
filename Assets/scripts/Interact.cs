@@ -16,7 +16,7 @@ public class Interact : MonoBehaviour
 
     void Start()
     {
-        text.enabled = false; // A szöveg alapértelmezetten rejtve van
+        text.enabled = false; 
         questManager = FindFirstObjectByType<QuestManager>();
     }
 
@@ -27,16 +27,14 @@ public class Interact : MonoBehaviour
         {
             if (hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
             {
-                // Küldetéstől független interakciós lehetőség
-                text.enabled = true;
 
-                // Ha a küldetés megfelel, akkor végrehajtjuk a küldetéstől függő interakciót
+
                 if (interactObj is Sit sitScript && questManager.currentQuestIndex == 0 ||
                     interactObj is GenNum num && questManager.currentQuestIndex == 1)
                 {
+                    text.enabled = true;
                     if (Input.GetKeyDown(KeyCode.E))
-                    {text.enabled = true;
-
+                    {
                         interactObj.Interact();
                     }
                 }
@@ -47,11 +45,10 @@ public class Interact : MonoBehaviour
                         interactObj.DefaultInteract();
                     }
                 }
-                return; 
+                return;
             }
         }
 
-        // Ha nincs interakcióra alkalmas objektum, a szöveg rejtve marad
         text.enabled = false;
     }
 }

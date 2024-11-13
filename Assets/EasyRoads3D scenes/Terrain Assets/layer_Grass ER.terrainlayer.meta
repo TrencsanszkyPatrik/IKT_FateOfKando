@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b649106d044cd744cacbcd3582ecebb6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 987
+  packageName: EasyRoads3D Free v3
+  packageVersion: v3.2.4f3
+  assetPath: Assets/EasyRoads3D scenes/Terrain Assets/layer_Grass ER.terrainlayer
+  uploadId: 701396

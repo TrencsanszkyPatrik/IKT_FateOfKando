@@ -27,8 +27,9 @@ public class Sit : MonoBehaviour, IInteractable
         if (questManager.currentQuestIndex == 0)
         {
             SitDown();
-            questManager.CompleteQuest(0);  // Küldetés befejezése
-        } else if(questManager.currentQuestIndex == 1) {
+            questManager.CompleteQuest(0);  
+        } 
+        else if(questManager.currentQuestIndex == 1) {
             StandUp();
         }
         else
@@ -37,7 +38,7 @@ public class Sit : MonoBehaviour, IInteractable
             DefaultInteract();
         }
 
-        // Interaction blokk után engedélyezze ismét az interakciót
+
         Invoke("EnableInteraction", 1f);
     }
 
