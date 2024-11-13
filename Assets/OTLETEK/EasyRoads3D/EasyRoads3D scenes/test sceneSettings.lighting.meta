@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 95093b647437996479209094dd2ade60
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 4890085278179872738
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 987
+  packageName: EasyRoads3D Free v3
+  packageVersion: v3.2.4f3
+  assetPath: Assets/EasyRoads3D scenes/test sceneSettings.lighting
+  uploadId: 701396
