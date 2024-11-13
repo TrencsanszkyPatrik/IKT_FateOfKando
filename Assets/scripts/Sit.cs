@@ -1,27 +1,21 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-
 public class Sit : MonoBehaviour, IInteractable
 {
     public Transform SitPosition;
     public Transform StandPosition;
-    public bool isSitting = false;
-
+    private QuestManager questManager;
     private GameObject player;
     private Movement playerMovementScript;
-    private bool canInteract = true;
     public GameObject test;
+    public bool isSitting = false;
 
-
-    public Toggle t1;
-    public Toggle t2;
+    private bool canInteract = true;
 
     void Start()
     {
-        t1.isOn = false;    
-        t2.isOn = false;
         player = GameObject.FindWithTag("Player");
         playerMovementScript = player.GetComponent<Movement>();
+        questManager = FindFirstObjectByType<QuestManager>();
     }
 
     public void Interact()
@@ -30,64 +24,67 @@ public class Sit : MonoBehaviour, IInteractable
 
         canInteract = false;
 
-        if (isSitting == false)
+        if (questManager.currentQuestIndex == 0)
         {
             SitDown();
-            
-
+            questManager.CompleteQuest(0);  // Küldetés befejezése
+        } else if(questManager.currentQuestIndex == 1) {
+            StandUp();
         }
         else
         {
-            Up();
+
+            DefaultInteract();
         }
 
+        // Interaction blokk után engedélyezze ismét az interakciót
         Invoke("EnableInteraction", 1f);
-
-    }
-
-    void SitDown()
-    {
-        player.transform.position = SitPosition.position;
-        player.transform.rotation = SitPosition.rotation;
-
-        if (playerMovementScript != null)
-        {
-            playerMovementScript.enabled = false;
-        }
-        isSitting = true;
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        test.SetActive(true);
-    }
-
-    void Up()
-    {
-        player.transform.position = StandPosition.position;
-        player.transform.rotation = StandPosition.rotation;
-        if (playerMovementScript != null)
-        {
-            playerMovementScript.enabled = true;
-        }
-        isSitting = false;
-        test.SetActive(false);
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
-    void EnableInteraction()
-    {
-        canInteract = true;
     }
 
     void Update()
     {
-        if (t1.isOn)
-        {
-            Debug.Log("Az egyes be van kapcsolva");
-        }
         if (isSitting && Input.GetKeyDown(KeyCode.E) && canInteract)
         {
-            
             Interact();
         }
+    }
+
+    public void DefaultInteract()
+    {
+        Debug.Log("Küldetéstől független interakció történt.");
+        
+    }
+
+    private void SitDown()
+    {
+        SetPlayerPosition(SitPosition);
+        playerMovementScript.enabled = false;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        test.SetActive(true);
+        isSitting = true;
+        Debug.Log("A karakter leült.");
+    }
+
+    private void StandUp()
+    {
+        SetPlayerPosition(StandPosition);
+        playerMovementScript.enabled = true;
+        test.SetActive(false);
+        Cursor.visible = false;
+        isSitting = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Debug.Log("A karakter felállt.");
+    }
+
+    private void SetPlayerPosition(Transform position)
+    {
+        player.transform.position = position.position;
+        player.transform.rotation = position.rotation;
+    }
+
+    private void EnableInteraction()
+    {
+        canInteract = true;
     }
 }

@@ -1,12 +1,15 @@
 using TMPro;
 using UnityEngine;
 
-interface IInteractable {
+interface IInteractable
+{
     public void Interact();
+    void DefaultInteract();
 }
 
 public class Interact : MonoBehaviour
 {
+    private QuestManager questManager;
     public TMP_Text text;
     public Transform InteractSource;
     public float InteractRange;
@@ -14,6 +17,7 @@ public class Interact : MonoBehaviour
     void Start()
     {
         text.enabled = false; // A szöveg alapértelmezetten rejtve van
+        questManager = FindFirstObjectByType<QuestManager>();
     }
 
     void Update()
@@ -23,17 +27,31 @@ public class Interact : MonoBehaviour
         {
             if (hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
             {
-                text.enabled = true; // Megjeleníti a "(E) interakció" szöveget
+                // Küldetéstől független interakciós lehetőség
+                text.enabled = true;
 
-                if (Input.GetKeyDown(KeyCode.E))
+                // Ha a küldetés megfelel, akkor végrehajtjuk a küldetéstől függő interakciót
+                if (interactObj is Sit sitScript && questManager.currentQuestIndex == 0 ||
+                    interactObj is GenNum num && questManager.currentQuestIndex == 1)
                 {
-                    interactObj.Interact(); // Az interakció végrehajtása
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {text.enabled = true;
+
+                        interactObj.Interact();
+                    }
                 }
-                return;
+                else
+                {
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        interactObj.DefaultInteract();
+                    }
+                }
+                return; 
             }
         }
 
-        // Ha nincs interakciós objektum a hatótávban, elrejti a szöveget
+        // Ha nincs interakcióra alkalmas objektum, a szöveg rejtve marad
         text.enabled = false;
     }
 }

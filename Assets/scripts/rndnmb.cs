@@ -1,7 +1,17 @@
 using UnityEngine;
+public class GenNum : MonoBehaviour, IInteractable
+{
+    public void Interact()
+    {
+        Debug.Log("Küldetéstől függő interakció.");
+        // Küldetéstől függő logika
+    }
 
-public class NumGen : MonoBehaviour, IInteractable {
-    public void Interact(){
-        Debug.Log(Random.Range(0, 100));
+    public void DefaultInteract()
+    {
+        Debug.Log("Küldetéstől független interakció: generált szám.");
+        int randomNum = Random.Range(1, 101);
+        Debug.Log("Generált szám: " + randomNum);
+        // Bármilyen alapértelmezett logika
     }
 }

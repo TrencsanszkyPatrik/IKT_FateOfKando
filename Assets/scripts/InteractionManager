@@ -1,0 +1,27 @@
+public class InteractionManager : MonoBehaviour
+{
+    private QuestManager questManager;
+
+    void Start()
+    {
+        questManager = FindFirstObjectByType<QuestManager>();
+    }
+
+    public void HandleInteraction(IInteractable interactObj)
+    {
+        // Küldetésektől függő interakciók
+        if (interactObj is Sit sitScript && questManager.currentQuestIndex == 0)
+        {
+            sitScript.Interact();
+        }
+        else if (interactObj is GenNum genNum && questManager.currentQuestIndex == 1)
+        {
+            genNum.Interact();
+        }
+        // Küldetésektől független interakciók
+        else
+        {
+            interactObj.DefaultInteract();
+        }
+    }
+}
