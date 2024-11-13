@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 public class Sit : MonoBehaviour, IInteractable
 {
+    public Camera playerCamera;
+    public Camera cutsceneCamera;
     public Transform SitPosition;
     public Transform StandPosition;
     private QuestManager questManager;
@@ -62,6 +64,9 @@ public class Sit : MonoBehaviour, IInteractable
         playerMovementScript.enabled = false;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        playerCamera.gameObject.SetActive(false); // kurva anyad
+        cutsceneCamera.gameObject.SetActive(true);
         test.SetActive(true);
         isSitting = true;
         Debug.Log("A karakter leült.");
