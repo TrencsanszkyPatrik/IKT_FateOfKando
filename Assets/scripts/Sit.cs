@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 public class Sit : MonoBehaviour, IInteractable
 {
-    public Camera playerCamera;
-    public Camera cutsceneCamera;
+    public GameObject playerCamera;
+    public GameObject cutsceneCamera;
     public Transform SitPosition;
     public Transform StandPosition;
     private QuestManager questManager;
     private GameObject player;
     private Movement playerMovementScript;
+    public GameObject kep;
     public GameObject test;
     public bool isSitting = false;
 
@@ -68,7 +70,8 @@ public class Sit : MonoBehaviour, IInteractable
         playerCamera.gameObject.SetActive(false); // kurva anyad
         cutsceneCamera.gameObject.SetActive(true);
         test.SetActive(true);
-        isSitting = true;
+        isSitting = true; 
+        StartCoroutine(SwitchToCutsceneCamera());
         Debug.Log("A karakter leült.");
     }
 
@@ -79,7 +82,8 @@ public class Sit : MonoBehaviour, IInteractable
         test.SetActive(false);
         Cursor.visible = false;
         isSitting = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked; 
+        StartCoroutine(SwitchToPlayerCam());
         Debug.Log("A karakter felállt.");
     }
 
@@ -92,5 +96,24 @@ public class Sit : MonoBehaviour, IInteractable
     private void EnableInteraction()
     {
         canInteract = true;
+    }
+
+
+    private IEnumerator SwitchToCutsceneCamera()
+    {
+        yield return null;
+        kep.gameObject.SetActive(false);
+        playerCamera.gameObject.SetActive(false);
+        cutsceneCamera.gameObject.SetActive(true);
+        Debug.Log("Váltás cutscene kamerára.");
+    }
+
+    private IEnumerator SwitchToPlayerCam()
+    {
+        yield return null;
+        kep.gameObject.SetActive(true);
+        playerCamera.gameObject.SetActive(true);
+        cutsceneCamera.gameObject.SetActive(false);
+        Debug.Log("Váltás play kamerára.");
     }
 }

@@ -1,17 +1,20 @@
 using UnityEngine;
 public class GenNum : MonoBehaviour, IInteractable
 {
+
+    public QuestManager questManager;
+
+    public void Start()
+    {
+        questManager = FindFirstObjectByType<QuestManager>();
+    }
     public void Interact()
     {
         Debug.Log("Küldetéstől függő interakció.");
-        // Küldetéstől függő logika
+        questManager.CompleteQuest(0);  
     }
 
     public void DefaultInteract()
     {
-        Debug.Log("Küldetéstől független interakció: generált szám.");
-        int randomNum = Random.Range(1, 101);
-        Debug.Log("Generált szám: " + randomNum);
-        // Bármilyen alapértelmezett logika
     }
 }
