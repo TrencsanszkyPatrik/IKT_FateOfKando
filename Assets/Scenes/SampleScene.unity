@@ -1183,6 +1183,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 312953edfbac5b34eaaf2a7105cd96ec, type: 2}
+    - target: {fileID: 393426108964605606, guid: 4f77e2551d42921408f33767b092fa73, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -34.28
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4f77e2551d42921408f33767b092fa73, type: 3}
       propertyPath: m_Name
       value: bejarat+aula
