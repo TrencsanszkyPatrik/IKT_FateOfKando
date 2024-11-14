@@ -1,17 +1,23 @@
 using UnityEngine;
-public class GenNum : MonoBehaviour, IInteractable
+public class GiveFlash : MonoBehaviour, IInteractable
 {
-
     public QuestManager questManager;
+    public GameObject FlashLight;
+    public Interact interactScript;  
 
     public void Start()
     {
         questManager = FindFirstObjectByType<QuestManager>();
+        interactScript = FindFirstObjectByType<Interact>(); 
     }
+
     public void Interact()
     {
-        Debug.Log("Küldetéstől függő interakció.");
-        questManager.CompleteQuest(0);  
+        if (questManager.currentQuestIndex == 1)
+        {
+            interactScript.Have_FlashLight = true; 
+        }
+      
     }
 
     public void DefaultInteract()

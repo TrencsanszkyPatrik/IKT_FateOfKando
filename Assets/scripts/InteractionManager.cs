@@ -20,9 +20,9 @@ public class InteractionManager : MonoBehaviour
         {
             sitScript.Interact();
         }
-        else if (interactObj is GenNum gen && questManager.currentQuestIndex == 1)
+        else if (interactObj is GiveFlash flash && questManager.currentQuestIndex == 1)
         {
-            gen.Interact();
+            flash.Interact();
         }
 
         else
