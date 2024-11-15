@@ -32,6 +32,7 @@ public class Interact : MonoBehaviour
             {
                 flashlight.SetActive(true);
                 Flashlight_off = false;
+                
             }
             else if (Input.GetKeyDown(KeyCode.F) && !Flashlight_off)
             {
