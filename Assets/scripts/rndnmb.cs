@@ -4,6 +4,8 @@ public class GiveFlash : MonoBehaviour, IInteractable
     public QuestManager questManager;
     public GameObject FlashLight;
     public Interact interactScript;  
+    public AudioSource hang;
+    
 
     public void Start()
     {

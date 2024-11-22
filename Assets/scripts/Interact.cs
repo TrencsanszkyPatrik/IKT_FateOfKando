@@ -16,6 +16,8 @@ public class Interact : MonoBehaviour
     public float InteractRange;
     private bool Flashlight_off = true;
     public bool Have_FlashLight = false;
+    public AudioSource hangeffekt;
+    public AudioClip flashlightSound;
 
     void Start()
     {
@@ -27,19 +29,20 @@ public class Interact : MonoBehaviour
     void Update()
     {
         if (Have_FlashLight)
+    {
+        if (Input.GetKeyDown(KeyCode.F) && Flashlight_off)
         {
-            if (Input.GetKeyDown(KeyCode.F) && Flashlight_off)
-            {
-                flashlight.SetActive(true);
-                Flashlight_off = false;
-                
-            }
-            else if (Input.GetKeyDown(KeyCode.F) && !Flashlight_off)
-            {
-                flashlight.SetActive(false);
-                Flashlight_off = true;
-            }
-        } 
+            flashlight.SetActive(true);
+            Flashlight_off = false;
+            hangeffekt.PlayOneShot(flashlightSound); 
+        }
+        else if (Input.GetKeyDown(KeyCode.F) && !Flashlight_off)
+        {
+            flashlight.SetActive(false);
+            Flashlight_off = true;
+            hangeffekt.PlayOneShot(flashlightSound);
+        }
+    } 
 
         Ray r = new Ray(InteractSource.position, InteractSource.forward);
         if (Physics.Raycast(r, out RaycastHit hitInfo, InteractRange))
@@ -49,7 +52,8 @@ public class Interact : MonoBehaviour
 
 
                 if (interactObj is Sit sitScript && questManager.currentQuestIndex == 0 ||
-                    interactObj is GiveFlash flash && questManager.currentQuestIndex == 1)
+                    interactObj is GiveFlash flash && questManager.currentQuestIndex == 1 ||
+                    interactObj is Sit_random)
                 {
                     text.enabled = true;
                     if (Input.GetKeyDown(KeyCode.E))
@@ -63,6 +67,7 @@ public class Interact : MonoBehaviour
                 {
                     if (Input.GetKeyDown(KeyCode.E))
                     {
+                        text.enabled = true;
                         interactObj.DefaultInteract();
                     }
                 }
