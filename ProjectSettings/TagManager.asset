@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - FPSPlayer
+  - trigzone
   layers:
   - Default
   - TransparentFX
