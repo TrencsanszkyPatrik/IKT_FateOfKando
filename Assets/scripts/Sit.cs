@@ -31,33 +31,28 @@ public class Sit : MonoBehaviour, IInteractable
         if (questManager.currentQuestIndex == 0)
         {
             SitDown();
-            questManager.CompleteQuest(0);  
-        } 
-        else if(questManager.currentQuestIndex == 1) {
-            StandUp();
+            questManager.CompleteQuest(0);  // Feltételezve, hogy ez a küldetés befejezése
+        }
+        else if (questManager.currentQuestIndex == 1 && isSitting)
+        {
+            StandUp();  // Ha a küldetés indexe 1 és a karakter ül, feláll
         }
         else
         {
-
             DefaultInteract();
         }
 
-
         Invoke("EnableInteraction", 1f);
-    }
-
-    void Update()
-    {
-        if (isSitting && Input.GetKeyDown(KeyCode.E) && canInteract)
-        {
-            Interact();
-        }
     }
 
     public void DefaultInteract()
     {
         Debug.Log("Küldetéstől független interakció történt.");
-        
+        // Ha a karakter ül, akkor mindig fel tud állni
+        if (isSitting && Input.GetKeyDown(KeyCode.E) && canInteract)
+        {
+            StandUp();
+        }
     }
 
     private void SitDown()
