@@ -9,17 +9,17 @@ public class QuestManager : MonoBehaviour
 
     public void Start()
     {
-        text.text = "Ülj le a székre";
+        text.text = "Szívj el egy dohányterméket mielőtt bemész.";
     }
 
     List<string> questtexts = new List<string>
     {
         
-        "Vedd fel az elemlámpát az asztalról",
+        "1",
 
-        "Vedd fel az elemlámpát az asztalról",
+        "2",
 
-        "Vedd fel az elemlámpát az asztalról",
+        "3",
 
         "Vedd fel az elemlámpát az asztalról",
 

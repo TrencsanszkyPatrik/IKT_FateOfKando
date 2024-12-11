@@ -44,11 +44,15 @@ public class Interact : MonoBehaviour
 
         Debug.Log($"Interakciós objektum: {currentInteractable}");
 
-        if (questManager.currentQuestIndex == 0 && currentInteractable is Sit)
+        if (questManager.currentQuestIndex == 0 && currentInteractable is Smoke)
         {
             currentInteractable.Interact();
         }
-        else if (questManager.currentQuestIndex == 1 && currentInteractable is GiveFlash)
+        else if (questManager.currentQuestIndex == 1 && currentInteractable is Sit)
+        {
+            currentInteractable.Interact();
+        }
+        else if (questManager.currentQuestIndex == 2 && currentInteractable is GiveFlash)
         {
             currentInteractable.Interact();
         }

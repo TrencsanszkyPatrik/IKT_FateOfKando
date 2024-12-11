@@ -24,7 +24,7 @@ public class CutsceneController : MonoBehaviour
     void EndCutscene()
     {
         kep.gameObject.SetActive(false);
-        cutsceneCamera.gameObject.SetActive(false);
+        cutsceneCamera.enabled = false;
         playerCamera.gameObject.SetActive(true);
     }
 }

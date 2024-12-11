@@ -28,14 +28,14 @@ public class Sit : MonoBehaviour, IInteractable
 
         canInteract = false;
 
-        if (questManager.currentQuestIndex == 0)
+        if (questManager.currentQuestIndex == 1)
         {
             SitDown();
-            questManager.CompleteQuest(0);  // Feltételezve, hogy ez a küldetés befejezése
+            questManager.CompleteQuest(1);  
         }
-        else if (questManager.currentQuestIndex == 1 && isSitting)
+        else if (questManager.currentQuestIndex == 2 && isSitting)
         {
-            StandUp();  // Ha a küldetés indexe 1 és a karakter ül, feláll
+            StandUp();  
         }
         else
         {
