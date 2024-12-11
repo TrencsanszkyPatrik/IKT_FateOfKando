@@ -1,91 +1,100 @@
-﻿using NUnit.Framework.Internal;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
- 
- 
+﻿using UnityEngine;
+
 public class Movement : MonoBehaviour
 {
-    [SerializeField] Transform playerCamera;
-    [SerializeField][Range(0.0f, 0.5f)] float mouseSmoothTime = 0.03f;
-    [SerializeField] bool cursorLock = true;
-    [SerializeField] float mouseSensitivity = 3.5f;
-    [SerializeField] float Speed = 6.0f;
-    [SerializeField][Range(0.0f, 0.5f)] float moveSmoothTime = 0.3f;
-    [SerializeField] float gravity = -10f;
-    [SerializeField] Transform groundCheck;
-    [SerializeField] LayerMask ground;
-    GameObject test;
- 
-    public float jumpHeight = 6f;
-    float velocityY;
-    bool isGrounded;
- 
-    float cameraCap;
-    Vector2 currentMouseDelta;
-    Vector2 currentMouseDeltaVelocity;
-    
-    CharacterController controller;
-    Vector2 currentDir;
-    Vector2 currentDirVelocity;
-    Vector3 velocity;
+    [Header("Movement Parameters")]
+    [SerializeField] private float moveSpeed = 7f;
+    [SerializeField] private float sprintMultiplier = 1.5f;
+    [SerializeField] private float jumpForce = 2f;
+    [SerializeField] private float gravity = -19.6f;
+
+    [Header("Ground Check")]
+    [SerializeField] private Transform groundCheckTransform;
+    [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private LayerMask groundLayer;
+
+    [Header("Camera & Mouse Look")]
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private float mouseSensitivity = 2f;
+    [SerializeField] private float verticalRotationLimit = 90f;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource walkAudioSource;
+    [SerializeField] private AudioClip walkSound;
+
+    [Header("Test GameObject")]
+    [SerializeField] private GameObject testGameObject;
+
+    private CharacterController controller;
+    private Vector3 playerVelocity;
+    private bool isGrounded;
+    private float verticalRotation;
+
     void Start()
     {
-        test = GameObject.Find("Dolgozat1");
-        test.SetActive(false);
         controller = GetComponent<CharacterController>();
- 
-        if (cursorLock)
+        Cursor.lockState = CursorLockMode.Locked;
+
+        if (testGameObject != null)
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = true;
+            testGameObject.SetActive(false);
         }
     }
- 
+
     void Update()
     {
-        UpdateMouse();
-        UpdateMove();
-    }
- 
-    void UpdateMouse()
-    {
-        Vector2 targetMouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
- 
-        currentMouseDelta = Vector2.SmoothDamp(currentMouseDelta, targetMouseDelta, ref currentMouseDeltaVelocity, mouseSmoothTime);
- 
-        cameraCap -= currentMouseDelta.y * mouseSensitivity;
- 
-        cameraCap = Mathf.Clamp(cameraCap, -90.0f, 90.0f);
- 
-        playerCamera.localEulerAngles = Vector3.right * cameraCap;
- 
-        transform.Rotate(Vector3.up * currentMouseDelta.x * mouseSensitivity);
-    }
- 
-    void UpdateMove()
-    {
-        isGrounded = Physics.CheckSphere(groundCheck.position, 0.2f, ground);
- 
-        Vector2 targetDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        targetDir.Normalize();
- 
-        currentDir = Vector2.SmoothDamp(currentDir, targetDir, ref currentDirVelocity, moveSmoothTime);
- 
-        velocityY += gravity * 2f * Time.deltaTime;
- 
-        Vector3 velocity = (transform.forward * currentDir.y + transform.right * currentDir.x) * Speed + Vector3.up * velocityY;
- 
-        controller.Move(velocity * Time.deltaTime);
- 
-        if (isGrounded && Input.GetButtonDown("Jump"))
+        isGrounded = Physics.CheckSphere(groundCheckTransform.position, groundCheckRadius, groundLayer);
+
+        if (isGrounded && playerVelocity.y < 0)
         {
-            velocityY = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            playerVelocity.y = -2f;
         }
- 
-        if(isGrounded! && controller.velocity.y < -1f)
+
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+
+        Vector3 move = transform.right * moveHorizontal + transform.forward * moveVertical;
+
+        float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? moveSpeed * sprintMultiplier : moveSpeed;
+
+        // Mozgás és hanglejátszás
+        bool isMoving = move.magnitude > 0.1f;
+        if (isMoving)
         {
-            velocityY = -8f;
+            controller.Move(move * currentSpeed * Time.deltaTime);
+
+            if (!walkAudioSource.isPlaying)
+            {
+                walkAudioSource.clip = walkSound;
+                walkAudioSource.Play();
+            }
         }
+        else
+        {
+            walkAudioSource.Stop();
+        }
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            playerVelocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
+        }
+
+        playerVelocity.y += gravity * Time.deltaTime;
+        controller.Move(playerVelocity * Time.deltaTime);
+
+        HandleMouseLook();
     }
+
+    void HandleMouseLook()
+    {
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
+        transform.Rotate(Vector3.up * mouseX);
+
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        verticalRotation -= mouseY;
+        verticalRotation = Mathf.Clamp(verticalRotation, -verticalRotationLimit, verticalRotationLimit);
+        playerCamera.transform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+    }
+
+    
 }
