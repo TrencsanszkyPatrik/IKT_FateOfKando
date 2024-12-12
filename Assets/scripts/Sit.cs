@@ -1,114 +1,110 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
+
 public class Sit : MonoBehaviour, IInteractable
 {
-    public GameObject playerCamera;
-    public GameObject cutsceneCamera;
-    public Transform SitPosition;
-    public Transform StandPosition;
-    private QuestManager questManager;
-    private GameObject player;
-    private Movement playerMovementScript;
-    public GameObject kep;
-    public GameObject test;
-    public bool isSitting = false;
+    [Header("Camera References")]
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private Camera cutsceneCamera;
 
+    [Header("Position References")]
+    [SerializeField] private Transform sitPosition;
+    [SerializeField] private Transform standPosition;
+
+    [Header("Game Components")]
+    [SerializeField] private QuestManager questManager;
+    [SerializeField] private Movement playerMovement;
+
+    [Header("Interaction Settings")]
+    [SerializeField] private GameObject sittingStateUI;
+
+    private GameObject player;
+    private bool isSitting = false;
     private bool canInteract = true;
 
-    void Start()
+    private void Awake()
     {
-        player = GameObject.FindWithTag("Player");
-        playerMovementScript = player.GetComponent<Movement>();
-        questManager = FindFirstObjectByType<QuestManager>();
+        player = GameObject.FindGameObjectWithTag("Player");
+
+        if (questManager == null)
+            questManager = FindFirstObjectByType<QuestManager>();
+
+        if (playerMovement == null && player != null)
+            playerMovement = player.GetComponent<Movement>();
+
+        // Alapértelmezetten mindkét kamera lehet aktív
+        if (playerCamera != null) playerCamera.enabled = true;
+        if (cutsceneCamera != null) cutsceneCamera.enabled = false;
     }
 
     public void Interact()
     {
         if (!canInteract) return;
 
-        canInteract = false;
-
-        if (questManager.currentQuestIndex == 1)
+        if (!isSitting)
         {
             SitDown();
-            questManager.CompleteQuest(1);  
-        }
-        else if (questManager.currentQuestIndex == 2 && isSitting)
-        {
-            StandUp();  
         }
         else
         {
-            DefaultInteract();
+            StandUp();
         }
 
-        Invoke("EnableInteraction", 1f);
+        canInteract = false;
+        Invoke(nameof(EnableInteraction), 0.5f);
     }
 
     public void DefaultInteract()
     {
-        Debug.Log("Küldetéstől független interakció történt.");
-        // Ha a karakter ül, akkor mindig fel tud állni
-        if (isSitting && Input.GetKeyDown(KeyCode.E) && canInteract)
-        {
-            StandUp();
-        }
+        Debug.Log("Nem tudod most leültetni a karaktert!");
     }
 
     private void SitDown()
     {
-        SetPlayerPosition(SitPosition);
-        playerMovementScript.enabled = false;
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        SetPlayerPosition(sitPosition);
 
-        playerCamera.gameObject.SetActive(false); // kurva anyad
-        cutsceneCamera.gameObject.SetActive(true);
-        test.SetActive(true);
-        isSitting = true; 
-        StartCoroutine(SwitchToCutsceneCamera());
-        Debug.Log("A karakter leült.");
+        playerMovement.enabled = false;
+        Cursor.visible = true;
+
+        // Explicit kameraváltás
+        if (playerCamera != null) playerCamera.enabled = false;
+        if (cutsceneCamera != null) cutsceneCamera.enabled = true;
+
+        if (sittingStateUI != null)
+            sittingStateUI.SetActive(true);
+
+        isSitting = true;
+        questManager.CompleteQuest(questManager.currentQuestIndex);
     }
 
     private void StandUp()
     {
-        SetPlayerPosition(StandPosition);
-        playerMovementScript.enabled = true;
-        test.SetActive(false);
+        SetPlayerPosition(standPosition);
+
+        playerMovement.enabled = true;
         Cursor.visible = false;
+
+        // Explicit kameraváltás visszafelé
+        if (cutsceneCamera != null) cutsceneCamera.enabled = false;
+        if (playerCamera != null) playerCamera.enabled = true;
+
+        if (sittingStateUI != null)
+            sittingStateUI.SetActive(false);
+
         isSitting = false;
-        Cursor.lockState = CursorLockMode.Locked; 
-        StartCoroutine(SwitchToPlayerCam());
-        Debug.Log("A karakter felállt.");
     }
 
-    private void SetPlayerPosition(Transform position)
+    private void SetPlayerPosition(Transform targetPosition)
     {
-        player.transform.position = position.position;
-        player.transform.rotation = position.rotation;
+        if (player != null)
+        {
+            player.transform.position = targetPosition.position;
+            player.transform.rotation = targetPosition.rotation;
+        }
     }
 
     private void EnableInteraction()
     {
         canInteract = true;
-    }
-
-
-    private IEnumerator SwitchToCutsceneCamera()
-    {
-        yield return null;
-        kep.gameObject.SetActive(false);
-        playerCamera.gameObject.SetActive(false);
-        cutsceneCamera.gameObject.SetActive(true);
-        Debug.Log("Váltás cutscene kamerára.");
-    }
-
-    private IEnumerator SwitchToPlayerCam()
-    {
-        yield return null;
-        kep.gameObject.SetActive(true);
-        playerCamera.gameObject.SetActive(true);
-        cutsceneCamera.gameObject.SetActive(false);
-        Debug.Log("Váltás play kamerára.");
     }
 }

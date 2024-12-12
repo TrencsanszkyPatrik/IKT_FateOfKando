@@ -2,15 +2,16 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using jatek;
+using UnityEngine.SceneManagement;
 
 public class Roller : MonoBehaviour
 {
     public GameObject cigaretteBox;
     public GameObject cigarettePaper;
     public GameObject tobacco;
-    public Slider rollingSlider;
     public Button lickButton;
     public GameObject completedMessage;
+    public GameObject timingBar;
 
     private bool isPaperTaken = false;
     private bool isTobaccoDragged = false;
@@ -18,16 +19,18 @@ public class Roller : MonoBehaviour
     private bool isLicked = false;
     private RectTransform draggedObject;
     private Vector2 originalPosition;
-    private DragAndDrop tobaccoDragAndDrop;
+    private DragAndDrop tobaccoDragAndDrop;public TimingBar timingbar;  
+
 
     void Start()
     {
         cigarettePaper.SetActive(false);
         lickButton.gameObject.SetActive(false);
         completedMessage.SetActive(false);
-        rollingSlider.gameObject.SetActive(false);
+        timingBar.gameObject.SetActive(false); 
 
         tobaccoDragAndDrop = tobacco.GetComponent<DragAndDrop>();
+        timingbar = timingbar.GetComponent<TimingBar>();
     }
 
     void Update()
@@ -45,33 +48,7 @@ public class Roller : MonoBehaviour
         }
     }
 
-    public void OnLickButtonPressed()
-    {
-        if (!isLicked)
-        {
-            isLicked = true;
-            lickButton.gameObject.SetActive(false);
-            rollingSlider.gameObject.SetActive(true);
-            StartRolling();
-        }
-    }
 
-    public void OnRollingSliderChanged()
-    {
-        if (isRollingStarted)
-        {
-        }
-    }
-
-    private void StartRolling()
-    {
-        if (isLicked)
-        {
-            isRollingStarted = true;
-            rollingSlider.gameObject.SetActive(true);
-            completedMessage.SetActive(false);
-        }
-    }
 
     private void CheckTobaccoPlacement()
     {
@@ -80,8 +57,13 @@ public class Roller : MonoBehaviour
             if (!isTobaccoDragged)
             {
                 isTobaccoDragged = true;
-                lickButton.gameObject.SetActive(true);
+                timingBar.gameObject.SetActive(true);
             }
+        }
+        if (timingbar.isRolled())
+        {
+            Debug.Log("Sikeresen megtekerted a cigit");
+            SceneManager.LoadScene("Jatek", LoadSceneMode.Single);
         }
     }
 

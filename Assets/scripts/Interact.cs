@@ -52,7 +52,7 @@ public class Interact : MonoBehaviour
         {
             currentInteractable.Interact();
         }
-        else if (questManager.currentQuestIndex == 2 && currentInteractable is GiveFlash)
+        else if (questManager.currentQuestIndex == 3 && currentInteractable is GiveFlash)
         {
             currentInteractable.Interact();
         }
