@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using static UnityEngine.ParticleSystem;
+using UnityEngine.SceneManagement; 
+
 public class Smoke : MonoBehaviour, IInteractable
 {
     public QuestManager questManager;
     public Interact interactScript;
     public ParticleSystem smoke;
+    private bool smoke_play = false;
 
+    public string miniGameSceneName = "RollMinigame"; 
 
     public void Start()
     {
@@ -20,18 +23,16 @@ public class Smoke : MonoBehaviour, IInteractable
     {
         if (questManager.currentQuestIndex == 0)
         {
-
-            smoke.Play();
-            await Task.Delay(600);
-            smoke.Stop();
-            await Task.Delay(1000);
-
-
-            questManager.CompleteQuest(0);
+            try
+            {
+                SceneManager.LoadScene(miniGameSceneName, LoadSceneMode.Single);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Hiba a jelenetváltás során: {e.Message}");
+            }
         }
-
     }
-
 
     public void DefaultInteract()
     {

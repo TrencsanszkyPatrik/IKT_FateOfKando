@@ -974,9 +974,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e503f70f4115adc45a5823881e422997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questManager: {fileID: 1063199499}
-  interactScript: {fileID: 40896930}
-  smoke: {fileID: 1853272062}
+  questManager: {fileID: 0}
+  interactScript: {fileID: 0}
+  smoke: {fileID: 0}
+  miniGameSceneName: RollMinigame
 --- !u!1 &152705130
 GameObject:
   m_ObjectHideFlags: 0
@@ -11871,7 +11872,7 @@ GameObject:
   - component: {fileID: 1329600929}
   - component: {fileID: 1329600928}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: Canvas_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
