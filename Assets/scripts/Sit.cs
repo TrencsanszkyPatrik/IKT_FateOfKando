@@ -17,10 +17,14 @@ public class Sit : MonoBehaviour, IInteractable
 
     [Header("Interaction Settings")]
     [SerializeField] private GameObject sittingStateUI;
+    [SerializeField] private GameObject test;
+
+    [SerializeField] private GameObject kep;
 
     private GameObject player;
     private bool isSitting = false;
     private bool canInteract = true;
+    private bool hasSatDown = false; 
 
     private void Awake()
     {
@@ -32,20 +36,26 @@ public class Sit : MonoBehaviour, IInteractable
         if (playerMovement == null && player != null)
             playerMovement = player.GetComponent<Movement>();
 
-        // Alapértelmezetten mindkét kamera lehet aktív
-        if (playerCamera != null) playerCamera.enabled = true;
-        if (cutsceneCamera != null) cutsceneCamera.enabled = false;
+        if (playerCamera != null) playerCamera.gameObject.SetActive(false); 
+        if (cutsceneCamera != null) cutsceneCamera.gameObject.SetActive(false);
     }
 
     public void Interact()
     {
         if (!canInteract) return;
 
-        if (!isSitting)
+        if (questManager == null)
+            questManager = FindFirstObjectByType<QuestManager>();
+
+        Debug.Log($"Current quest index: {questManager.currentQuestIndex}");
+        Debug.Log($"Has sat down: {hasSatDown}");
+
+        if (!isSitting && !hasSatDown && questManager.currentQuestIndex == 1)
         {
             SitDown();
+            questManager.CompleteQuest(1);
         }
-        else
+        else if (isSitting)
         {
             StandUp();
         }
@@ -53,6 +63,7 @@ public class Sit : MonoBehaviour, IInteractable
         canInteract = false;
         Invoke(nameof(EnableInteraction), 0.5f);
     }
+
 
     public void DefaultInteract()
     {
@@ -62,36 +73,30 @@ public class Sit : MonoBehaviour, IInteractable
     private void SitDown()
     {
         SetPlayerPosition(sitPosition);
-
         playerMovement.enabled = false;
         Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
-        // Explicit kameraváltás
-        if (playerCamera != null) playerCamera.enabled = false;
-        if (cutsceneCamera != null) cutsceneCamera.enabled = true;
-
-        if (sittingStateUI != null)
-            sittingStateUI.SetActive(true);
-
+        playerCamera.gameObject.SetActive(false);
+        cutsceneCamera.gameObject.SetActive(true);
+        test.SetActive(true);
         isSitting = true;
-        questManager.CompleteQuest(questManager.currentQuestIndex);
+        hasSatDown = true;
+        Debug.Log("Character sat down. hasSatDown set to true.");
+        StartCoroutine(SwitchToCutsceneCamera());
     }
+
 
     private void StandUp()
     {
         SetPlayerPosition(standPosition);
-
         playerMovement.enabled = true;
+        test.SetActive(false);
         Cursor.visible = false;
-
-        // Explicit kameraváltás visszafelé
-        if (cutsceneCamera != null) cutsceneCamera.enabled = false;
-        if (playerCamera != null) playerCamera.enabled = true;
-
-        if (sittingStateUI != null)
-            sittingStateUI.SetActive(false);
-
         isSitting = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        StartCoroutine(SwitchToPlayerCam());
+        Debug.Log("A karakter felállt.");
     }
 
     private void SetPlayerPosition(Transform targetPosition)
@@ -106,5 +111,23 @@ public class Sit : MonoBehaviour, IInteractable
     private void EnableInteraction()
     {
         canInteract = true;
+    }
+
+    private IEnumerator SwitchToCutsceneCamera()
+    {
+        yield return null;
+        kep.gameObject.SetActive(false);
+        playerCamera.gameObject.SetActive(false);
+        cutsceneCamera.gameObject.SetActive(true);
+        Debug.Log("Váltás cutscene kamerára.");
+    }
+
+    private IEnumerator SwitchToPlayerCam()
+    {
+        yield return null;
+        kep.gameObject.SetActive(true);
+        playerCamera.gameObject.SetActive(true);
+        cutsceneCamera.gameObject.SetActive(false);
+        Debug.Log("Váltás play kamerára.");
     }
 }

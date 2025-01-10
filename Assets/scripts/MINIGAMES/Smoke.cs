@@ -24,12 +24,18 @@ public class Smoke : MonoBehaviour, IInteractable
     {
         if (questManager.currentQuestIndex == 0)
         {
-            questManager.CompleteQuest(0);
             try
             {
-                SceneManager.LoadScene(miniGameSceneName, LoadSceneMode.Single);
+                var loadOperation = SceneManager.LoadSceneAsync(miniGameSceneName, LoadSceneMode.Single);
+
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
+
+                while (!loadOperation.isDone)
+                {
+                    await Task.Yield();
+                }
+
             }
             catch (System.Exception e)
             {
@@ -37,7 +43,9 @@ public class Smoke : MonoBehaviour, IInteractable
             }
         }
 
+        questManager.CompleteQuest(0);
     }
+
 
     public void DefaultInteract()
     {

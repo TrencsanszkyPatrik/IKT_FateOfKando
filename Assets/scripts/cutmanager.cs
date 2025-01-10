@@ -9,26 +9,21 @@ public class CutsceneController : MonoBehaviour
     public RawImage kep;
     public Animator cutsceneAnimator;
 
-    public PlayableDirector timeline1;  // Az első Timeline
-    public PlayableDirector timeline2;  // A második Timeline
+    public PlayableDirector timeline1;  
+    public PlayableDirector timeline2;  
 
-    // Statikus változó, hogy az állapotot megőrizzük a játék alatt
+
     private static bool hasPlayedCutscene = false;
 
     private void Start()
     {
-        // Ellenőrizd, hogy már lejátszották-e a cutscene-t
         if (!hasPlayedCutscene)
         {
-            // Ha még nem játszották le:
-
-            // Lejátszunk két Timeline-t
             if (timeline1 != null)
-                timeline1.Play();  // Első Timeline elindítása
+                timeline1.Play();  
             if (timeline2 != null)
-                timeline2.Play();  // Második Timeline elindítása
+                timeline2.Play();  
 
-            // Lejátszani a cutscene-t (animáció vagy egyéb események)
             playerCamera.gameObject.SetActive(false);
             cutsceneCamera.gameObject.SetActive(true);
 
@@ -37,15 +32,12 @@ public class CutsceneController : MonoBehaviour
                 cutsceneAnimator.Play("CutsceneAnimation");
             }
 
-            // Befejezni a cutscene-t egy időzítő segítségével
-            Invoke("EndCutscene", 3f);  // 3 másodperc után befejezi a cutscene-t
+            Invoke("EndCutscene", 3f);  
 
-            // Beállítjuk a PlayerPrefs-t, hogy legközelebb ne fusson le
             hasPlayedCutscene = true;
         }
         else
         {
-            // Ha már lejátszották a cutscene-t, akkor csak a játék kamerát engedélyezd
             playerCamera.gameObject.SetActive(true);
             cutsceneCamera.gameObject.SetActive(false);
         }

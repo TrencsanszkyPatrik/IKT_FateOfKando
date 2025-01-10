@@ -3196,6 +3196,8 @@ MonoBehaviour:
   questManager: {fileID: 1063199499}
   playerMovement: {fileID: 40896929}
   sittingStateUI: {fileID: 0}
+  test: {fileID: 1134650536}
+  kep: {fileID: 656006658}
 --- !u!114 &300215744
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6471,7 +6473,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &796307515
 Transform:
   m_ObjectHideFlags: 0
@@ -11933,8 +11935,8 @@ RectTransform:
   m_Children:
   - {fileID: 994619130}
   - {fileID: 656006659}
-  - {fileID: 2063299572}
   - {fileID: 1308843284}
+  - {fileID: 2063299572}
   - {fileID: 1134650537}
   - {fileID: 1149269589}
   - {fileID: 526390745}
