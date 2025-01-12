@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Playables;
+using UnityEngine.SceneManagement;
 
 public class CutsceneController : MonoBehaviour
 {
@@ -17,29 +18,34 @@ public class CutsceneController : MonoBehaviour
 
     private void Start()
     {
-        if (!hasPlayedCutscene)
+        Scene scene = SceneManager.GetActiveScene();
+
+        if (scene.name == "Jatek")
         {
-            if (timeline1 != null)
-                timeline1.Play();  
-            if (timeline2 != null)
-                timeline2.Play();  
-
-            playerCamera.gameObject.SetActive(false);
-            cutsceneCamera.gameObject.SetActive(true);
-
-            if (cutsceneAnimator != null)
+            if (!hasPlayedCutscene)
             {
-                cutsceneAnimator.Play("CutsceneAnimation");
+                if (timeline1 != null)
+                    timeline1.Play();
+                if (timeline2 != null)
+                    timeline2.Play();
+
+                playerCamera.gameObject.SetActive(false);
+                cutsceneCamera.gameObject.SetActive(true);
+
+                if (cutsceneAnimator != null)
+                {
+                    cutsceneAnimator.Play("CutsceneAnimation");
+                }
+
+                Invoke("EndCutscene", 3f);
+
+                hasPlayedCutscene = true;
             }
-
-            Invoke("EndCutscene", 3f);  
-
-            hasPlayedCutscene = true;
-        }
-        else
-        {
-            playerCamera.gameObject.SetActive(true);
-            cutsceneCamera.gameObject.SetActive(false);
+            else
+            {
+                playerCamera.gameObject.SetActive(true);
+                cutsceneCamera.gameObject.SetActive(false);
+            }
         }
     }
 

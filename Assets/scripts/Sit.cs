@@ -35,14 +35,11 @@ public class Sit : MonoBehaviour, IInteractable
 
         if (playerMovement == null && player != null)
             playerMovement = player.GetComponent<Movement>();
-
-        if (playerCamera != null) playerCamera.gameObject.SetActive(false); 
         if (cutsceneCamera != null) cutsceneCamera.gameObject.SetActive(false);
     }
 
     public void Interact()
     {
-        if (!canInteract) return;
 
         if (questManager == null)
             questManager = FindFirstObjectByType<QuestManager>();

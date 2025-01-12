@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 interface IInteractable
 {
@@ -17,12 +18,20 @@ public class Interact : MonoBehaviour
     public bool Have_FlashLight = false;
     public AudioSource hangeffekt;
     public AudioClip flashlightSound;
+    
 
     void Start()
     {
         text.enabled = false;
         flashlight.SetActive(false);
         questManager = FindFirstObjectByType<QuestManager>();
+
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name == "Jatek2")
+        {
+            questManager.currentQuestIndex = 1;
+        }
+
     }
 
     public void ToggleFlashlight()

@@ -63,7 +63,7 @@ public class Roller : MonoBehaviour
         if (timingbar.isRolled())
         {
             Debug.Log("Sikeresen megtekerted a cigit");
-            SceneManager.LoadScene("Jatek", LoadSceneMode.Single);
+            SceneManager.LoadScene("Jatek2", LoadSceneMode.Single);
         }
     }
 
