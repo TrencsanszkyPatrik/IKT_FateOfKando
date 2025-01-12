@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>menu</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e1e2f, #272740);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .menu-container {
+            text-align: center;
+            width: 300px;
+            padding: 20px;
+            border: 3px solid #4c4c6d;
+            border-radius: 10px;
+            background-color: #2a2a3d;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+        .menu-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .menu-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(135deg, #4a90e2, #007acc);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .menu-button:hover {
+            background: linear-gradient(135deg, #007acc, #4a90e2);
+            transform: scale(1.05);
+        }
+        .menu-footer {
+            font-size: 12px;
+            color: #a9a9b8;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-container">
+        <div class="menu-title">Itt az idő gondolkodni</div>
+        <button class="menu-button">Készen állok!</button>
+        <button class="menu-button">Beállítások</button>
+        <button class="menu-button">Statok</button>
+        <button class="menu-button">Kilépés</button>
+       
+    </div>
+</body>
+</html>
