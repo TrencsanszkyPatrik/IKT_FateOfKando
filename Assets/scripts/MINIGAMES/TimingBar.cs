@@ -1,4 +1,5 @@
-﻿using Unity.VisualScripting;
+﻿using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,12 +7,13 @@ namespace jatek
 {
     public class TimingBar : MonoBehaviour
     {
-        public RectTransform cursor; // A mozgó jelző.
-        public RectTransform greenZone; // A zöld célterület.
-        public float speed = 100f; // Mozgási sebesség.
+        public RectTransform cursor; 
+        public RectTransform greenZone; 
+        public float speed = 100f; 
         private bool movingRight = true;
 
         public GameObject dohany;
+        public TMP_Text text;
         public Image targetImage;
         public Sprite[] sprites;
         private int spriteChangeCount = 0;
@@ -20,6 +22,12 @@ namespace jatek
         public bool isRolled()
         {
             return IsRolled;
+        }
+
+
+        public void Awake()
+        {
+            text.text = "0/4";
         }
 
         void Update()
@@ -35,7 +43,7 @@ namespace jatek
                 if (cursor.localPosition.x <= -40) movingRight = true;
             }
 
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Mouse0))
             {
                 if (RectTransformUtility.RectangleContainsScreenPoint(greenZone, cursor.position))
                 {
@@ -72,6 +80,7 @@ namespace jatek
             {
                 targetImage.sprite = sprites[spriteChangeCount];
                 spriteChangeCount++;
+                text.text = $"{spriteChangeCount}/4";
             }
         }
     }
