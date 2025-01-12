@@ -1,21 +1,21 @@
 SOK SOK IJESZTŐ FOSATÓS HANG
-Busz megállás
-Busz bebassza az ajtót
-ajtó nyitás
-ajtó zárás
-lámpa villogás
+Busz megállás (megvan)
+Busz bebassza az ajtót (megvan)
+ajtó nyitás (megvan) 
+ajtó zárás (megvan)
+lámpa villogás (megvan)
 lámpa kapcsoló hangja
-random beszéd a háttérben
+random beszéd a háttérben (megvan)
 wc lehúzás
 egy másik nyikorgás ajtó zárás/nyitás
 háttérzajok PL.:(fúj a szél, levelek csörögnek ilyenek)
 kréta írása a táblára
 tollal/ceruzával lapra írás
 lap kitépés/lap elővétel
-szék kihúzás
+szék kihúzás (megvan)
 asztalra ráütés ököllel
-léptek
-magassarkú kopogása a padlón
+léptek (megvan)
+magassarkú kopogása a padlón (megvan)
 kicsengő/becsengő(ugyanaz XD LOL haha)
-kulcs csörgés
+kulcs csörgés (megvan)
 ...
