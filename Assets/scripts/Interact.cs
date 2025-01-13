@@ -1,9 +1,10 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 interface IInteractable
 {
-    public void Interact();
+    void Interact();
     void DefaultInteract();
 }
 
@@ -11,70 +12,110 @@ public class Interact : MonoBehaviour
 {
     private QuestManager questManager;
     public TMP_Text text;
-    public Transform InteractSource;
     public GameObject flashlight;
-    public float InteractRange;
+    private IInteractable currentInteractable;
     private bool Flashlight_off = true;
     public bool Have_FlashLight = false;
     public AudioSource hangeffekt;
     public AudioClip flashlightSound;
+    
 
     void Start()
     {
         text.enabled = false;
         flashlight.SetActive(false);
         questManager = FindFirstObjectByType<QuestManager>();
+
+        Scene scene = SceneManager.GetActiveScene();
+        if (scene.name == "Jatek2")
+        {
+            questManager.currentQuestIndex = 1;
+        }
+
+    }
+
+    public void ToggleFlashlight()
+    {
+        if (!Have_FlashLight) return;
+
+        Flashlight_off = !Flashlight_off;
+        flashlight.SetActive(!Flashlight_off);
+        hangeffekt.PlayOneShot(flashlightSound);
+    }
+
+    public void InteractWithObject()
+    {
+        if (currentInteractable == null)
+        {
+            Debug.Log("Nincs aktuális interakciós objektum.");
+            return;
+        }
+
+        Debug.Log($"Interakciós objektum: {currentInteractable}");
+
+        if (questManager.currentQuestIndex == 0 && currentInteractable is Smoke)
+        {
+            currentInteractable.Interact();
+        }
+        else if (questManager.currentQuestIndex == 1 && currentInteractable is Sit)
+        {
+            currentInteractable.Interact();
+        }
+        else if (questManager.currentQuestIndex == 2 && currentInteractable is GiveFlash)
+        {
+            currentInteractable.Interact();
+        }
+        else if (currentInteractable is Sit_random)
+        {
+            currentInteractable.Interact();
+        }
+        else
+        {
+            currentInteractable.DefaultInteract();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out IInteractable interactable))
+        {
+            currentInteractable = interactable;
+            text.enabled = true;
+            Debug.Log($"Belépés interakciós zónába: {interactable}");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out IInteractable interactable) && interactable == currentInteractable)
+        {
+            Debug.Log($"Kilépés interakciós zónából: {interactable}");
+            currentInteractable = null;
+            text.enabled = false;
+        }
     }
 
     void Update()
     {
-        if (Have_FlashLight)
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            HandleInput(KeyCode.F);
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            HandleInput(KeyCode.E);
+        }
+    }
+
+    public void HandleInput(KeyCode key)
     {
-        if (Input.GetKeyDown(KeyCode.F) && Flashlight_off)
+        if (key == KeyCode.F)
         {
-            flashlight.SetActive(true);
-            Flashlight_off = false;
-            hangeffekt.PlayOneShot(flashlightSound); 
+            ToggleFlashlight();
         }
-        else if (Input.GetKeyDown(KeyCode.F) && !Flashlight_off)
+        else if (key == KeyCode.E)
         {
-            flashlight.SetActive(false);
-            Flashlight_off = true;
-            hangeffekt.PlayOneShot(flashlightSound);
+            InteractWithObject();
         }
-    } 
-
-        Ray r = new Ray(InteractSource.position, InteractSource.forward);
-        if (Physics.Raycast(r, out RaycastHit hitInfo, InteractRange))
-        {
-            if (hitInfo.collider.gameObject.TryGetComponent(out IInteractable interactObj))
-            {
-
-
-                if (interactObj is Sit sitScript && questManager.currentQuestIndex == 0 ||
-                    interactObj is GiveFlash flash && questManager.currentQuestIndex == 1 ||
-                    interactObj is Sit_random)
-                {
-                    text.enabled = true;
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        interactObj.Interact();
-                    }
-
-
-                }
-                else
-                {
-                    if (Input.GetKeyDown(KeyCode.E))
-                    {
-                        text.enabled = true;
-                        interactObj.DefaultInteract();
-                    }
-                }
-                return;
-            }
-        }
-
-        text.enabled = false;
     }
 }

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - FPSPlayer
   - trigzone
+  - Shape
+  - Drop
   layers:
   - Default
   - TransparentFX
