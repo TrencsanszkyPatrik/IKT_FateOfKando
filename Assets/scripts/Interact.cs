@@ -47,11 +47,11 @@ public class Interact : MonoBehaviour
     {
         if (currentInteractable == null)
         {
-            Debug.Log("Nincs aktuális interakciós objektum.");
+            Debug.Log("Nincs aktuï¿½lis interakciï¿½s objektum.");
             return;
         }
 
-        Debug.Log($"Interakciós objektum: {currentInteractable}");
+        Debug.Log($"Interakciï¿½s objektum: {currentInteractable}");
 
         if (questManager.currentQuestIndex == 0 && currentInteractable is Smoke)
         {
@@ -81,7 +81,7 @@ public class Interact : MonoBehaviour
         {
             currentInteractable = interactable;
             text.enabled = true;
-            Debug.Log($"Belépés interakciós zónába: {interactable}");
+            Debug.Log($"Belï¿½pï¿½s interakciï¿½s zï¿½nï¿½ba: {interactable}");
         }
     }
 
@@ -89,7 +89,7 @@ public class Interact : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out IInteractable interactable) && interactable == currentInteractable)
         {
-            Debug.Log($"Kilépés interakciós zónából: {interactable}");
+            Debug.Log($"Kilï¿½pï¿½s interakciï¿½s zï¿½nï¿½bï¿½l: {interactable}");
             currentInteractable = null;
             text.enabled = false;
         }

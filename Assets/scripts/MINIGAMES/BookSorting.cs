@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;  
 using System.Collections.Generic;
 
-public class BookSorting : MonoBehaviour
+public class BookSorting : MonoBehaviour, IPointerClickHandler  
 {
     public TMP_Text scoreText;
     public TMP_Text timerText;
@@ -42,23 +44,11 @@ public class BookSorting : MonoBehaviour
 
     void InitializeBooks()
     {
-        string[] bookTitles = new string[]
+        string[] bookTitles = new string[] 
         {
-            "Anatómia",
-            "Démoni kör",
-            "Fizika",
-            "Kémia",
-            "Programozás",
-            "Ne olvass!",
-            "Házifeladat",
-            "Tankönyv",
-            "Miért ne?",
-            "Szabályok",
-            "Túlélő kalauz",
-            "Szünetek",
-            "Verseny",
-            "Alvás",
-            "Szünet"
+            "Anatómia", "Démoni kör", "Fizika", "Kémia", "Programozás", "Ne olvass!", 
+            "Házifeladat", "Tankönyv", "Miért ne?", "Szabályok", "Túlélő kalauz", 
+            "Szünetek", "Verseny", "Alvás", "Szünet"
         };
 
         List<string> shuffledTitles = new List<string>(bookTitles);
@@ -77,7 +67,6 @@ public class BookSorting : MonoBehaviour
         {
             bool isDemonic = false;
 
-            // Véletlenszerűen állítjuk be démoni könyvet, de legfeljebb kettőt.
             if (demonCount < 2 && Random.Range(0, 2) == 0)
             {
                 isDemonic = true;
@@ -106,14 +95,12 @@ public class BookSorting : MonoBehaviour
         if (selectedBook == null)
         {
             selectedBook = clickedBook;
-            Debug.Log($"Könyv kiválasztva: {selectedBook.title}");
             return;
         }
 
         if (selectedBook != clickedBook)
         {
             SwapBooks(selectedBook, clickedBook);
-            Debug.Log($"Könyvek cserélve: {selectedBook.title} <-> {clickedBook.title}");
 
             bool isCorrectOrder = CheckBookOrder();
 
@@ -159,13 +146,37 @@ public class BookSorting : MonoBehaviour
         isGameActive = false;
         if (won)
         {
-            Debug.Log("Győzelem!");
             winText.text = "Siker!";
         }
         else
         {
-            Debug.Log("Vesztettél!");
             winText.text = "Vesztettél!";
         }
+    }
+
+    // A kattintásra ujrainditás v tovább
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (!isGameActive)
+        {
+            if (currentTime <= 0 || mistakes >= MAX_MISTAKES)
+            {
+                RestartGame();
+            }
+            else
+            {
+                NextScene();
+            }
+        }
+    }
+
+    void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    void NextScene()
+    {
+        SceneManager.LoadScene("Jatek2");
     }
 }

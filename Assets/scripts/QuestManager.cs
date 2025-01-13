@@ -37,13 +37,11 @@ public class QuestManager : MonoBehaviour
 
     void UpdateQuestText()
     {
-        // Először keressük meg a szöveg komponenst
         if (text == null)
         {
             text = GameObject.Find("QuestText_Feladat")?.GetComponent<TMP_Text>();
         }
 
-        // Ha megvan a szöveg komponens, frissítsük a feladat szövegét
         if (text != null)
         {
             if (currentQuestIndex < questtexts.Count)
@@ -65,13 +63,11 @@ public class QuestManager : MonoBehaviour
     {
         if (questIndex == currentQuestIndex)
         {
-            Debug.Log($"Completing quest {questIndex}. Moving to quest {currentQuestIndex + 1}");
             currentQuestIndex++;
             UpdateQuestText();
         }
         else
         {
-            Debug.Log($"Quest {questIndex} cannot be completed. Current quest is {currentQuestIndex}");
         }
     }
 
