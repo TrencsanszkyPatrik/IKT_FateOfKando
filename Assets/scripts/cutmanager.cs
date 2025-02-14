@@ -9,6 +9,7 @@ public class CutsceneController : MonoBehaviour
     public Camera cutsceneCamera;
     public RawImage kep;
     public Animator cutsceneAnimator;
+    
 
     public PlayableDirector timeline1;  
     public PlayableDirector timeline2;  
