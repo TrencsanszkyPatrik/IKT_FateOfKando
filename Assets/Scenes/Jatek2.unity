@@ -8009,7 +8009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20db7c610261c544badaeb56d982fbc7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentQuestIndex: 0
+  currentQuestIndex: 2
   text: {fileID: 526390746}
 --- !u!4 &1063199500
 Transform:

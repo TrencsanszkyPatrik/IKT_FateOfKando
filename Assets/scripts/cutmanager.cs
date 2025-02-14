@@ -55,5 +55,5 @@ public class CutsceneController : MonoBehaviour
         kep.gameObject.SetActive(false);
         cutsceneCamera.enabled = false;
         playerCamera.gameObject.SetActive(true);
-    }
+    } 
 }

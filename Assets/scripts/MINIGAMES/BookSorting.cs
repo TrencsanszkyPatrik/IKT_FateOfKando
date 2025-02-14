@@ -17,7 +17,7 @@ public class BookSorting : MonoBehaviour, IPointerClickHandler
 
     private float currentTime;
     private int mistakes = 0;
-    private const int MAX_MISTAKES = 5;
+    private const int MAX_MISTAKES = 6;
     private List<Book> books = new List<Book>();
     private bool isGameActive = true;
 
@@ -48,7 +48,7 @@ public class BookSorting : MonoBehaviour, IPointerClickHandler
         {
             "Anatómia", "Démoni kör", "Fizika", "Kémia", "Programozás", "Ne olvass!", 
             "Házifeladat", "Tankönyv", "Miért ne?", "Szabályok", "Túlélő kalauz", 
-            "Szünetek", "Verseny", "Alvás", "Szünet"
+            "Szünetek", "Verseny", "Alvás", "Szünet", "Megölöm magam"
         };
 
         List<string> shuffledTitles = new List<string>(bookTitles);
@@ -80,7 +80,7 @@ public class BookSorting : MonoBehaviour, IPointerClickHandler
             books.Add(book);
 
             RectTransform rect = bookObj.GetComponent<RectTransform>();
-            rect.anchoredPosition = new Vector2(i * 300f - (selectedBooks.Count - 1) * 150f, 0);
+            rect.anchoredPosition = new Vector2(i * 400f - (selectedBooks.Count - 1) * 200f, 0);
         }
     }
 
