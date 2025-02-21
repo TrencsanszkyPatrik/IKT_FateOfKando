@@ -17,5 +17,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Jatek2.unity
     guid: 6a8b116a746a2cd40a1edb805fa0ab1a
+  - enabled: 1
+    path: Assets/Scenes/Jatek3.unity
+    guid: a89b6b0ed5aecf840be5716d6c609117
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

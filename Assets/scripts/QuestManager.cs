@@ -11,7 +11,7 @@ public class QuestManager : MonoBehaviour
     private List<string> questtexts = new List<string>
     {
         "Szívj el egy dohányterméket mielőtt bemész.",
-        "Ülj le",
+        "Menj be az iskolába",
         "Vedd fel az elemlámpát az asztalról",
         "Küldetés 3 szövege",
         "Küldetés 4 szöbege",

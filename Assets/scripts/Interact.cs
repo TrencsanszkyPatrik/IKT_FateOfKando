@@ -47,7 +47,7 @@ public class Interact : MonoBehaviour
     {
         if (currentInteractable == null)
         {
-            Debug.Log("Nincs aktu�lis interakci�s objektum.");
+            Debug.Log("Nincs aktuális interakciós objektum.");
             return;
         }
 
@@ -57,8 +57,11 @@ public class Interact : MonoBehaviour
         {
             currentInteractable.Interact();
         }
-        else if (questManager.currentQuestIndex == 1 && currentInteractable is Sit)
+        else if (questManager.currentQuestIndex == 1 && currentInteractable is Enter)
         {
+            currentInteractable.Interact();
+        }
+        else if (questManager.currentQuestIndex == 2 && currentInteractable is Sit){
             currentInteractable.Interact();
         }
         else if (questManager.currentQuestIndex == 2 && currentInteractable is GiveFlash)
